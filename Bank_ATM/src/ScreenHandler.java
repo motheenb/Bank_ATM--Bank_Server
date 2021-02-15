@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.text.DecimalFormat;
 
 public class ScreenHandler {
 
@@ -22,25 +23,28 @@ public class ScreenHandler {
                 graphics2D.setColor(Color.GREEN);
                 drawCenteredString("Enter 16-digit Card Number: ", clientGUI.getClientW(), clientGUI.getClientH(), 0, graphics2D);
                 graphics2D.setColor(Color.YELLOW);
-                drawCenteredString("*", clientGUI.getClientW(), clientGUI.getClientH(), 25, graphics2D);
+                drawCenteredString(clientGUI.getCardNumber() + "*", clientGUI.getClientW(), clientGUI.getClientH(), 25, graphics2D);
             }
             case EnterPIN -> {
                 graphics2D.setColor(Color.GREEN);
                 drawCenteredString("Enter 4-digit PIN Number: ", clientGUI.getClientW(), clientGUI.getClientH(), 0, graphics2D);
                 graphics2D.setColor(Color.YELLOW);
-                drawCenteredString("*", clientGUI.getClientW(), clientGUI.getClientH(), 25, graphics2D);
+                drawCenteredString(getBlockedPIN() + "*", clientGUI.getClientW(), clientGUI.getClientH(), 25, graphics2D);
             }
             case MainMenu -> {
+                graphics2D.setColor(Color.YELLOW);
                 drawCenteredString("Hi, Motheen Baig!", clientGUI.getClientW(), clientGUI.getClientH(), 0, graphics2D);
-                drawCenteredString("Account Balance: $43,524.91", clientGUI.getClientW(), clientGUI.getClientH(), 25, graphics2D);
+                double balance = 3142344.91;
+                drawCenteredString("Account Balance: " + formatDollars(balance), clientGUI.getClientW(), clientGUI.getClientH(), 25, graphics2D);
                 drawCenteredString("Press 1. to Withdraw", clientGUI.getClientW(), clientGUI.getClientH(), 50, graphics2D);
                 drawCenteredString("Press 2. to Deposit", clientGUI.getClientW(), clientGUI.getClientH(), 75, graphics2D);
             }
             case Withdraw -> {
                 graphics2D.setColor(Color.GREEN);
-                drawCenteredString("Enter Amount You'd Like To Withdraw: ", clientGUI.getClientW(), clientGUI.getClientH(), 0, graphics2D);
+                drawCenteredString("Balance: " + formatDollars(Double.parseDouble(clientGUI.getAccountBalance())), clientGUI.getClientW(), clientGUI.getClientH(), 0, graphics2D);
                 graphics2D.setColor(Color.YELLOW);
-                drawCenteredString("*", clientGUI.getClientW(), clientGUI.getClientH(), 25, graphics2D);
+                drawCenteredString("Enter Amount You'd Like To Withdraw: ", clientGUI.getClientW(), clientGUI.getClientH(), 25, graphics2D);
+                drawCenteredString(formatDollars(Double.parseDouble(clientGUI.getWithdraw())), clientGUI.getClientW(), clientGUI.getClientH(), 50, graphics2D);
             }
             case Deposit -> {
                 graphics2D.setColor(Color.GREEN);
@@ -52,6 +56,22 @@ public class ScreenHandler {
                 // Display last 10 transactions
             }
         }
+    }
+
+    public String formatDollars(final double amount) {
+        String result = new DecimalFormat("#,###.00").format(amount);
+        if (result.startsWith(".")) {
+            result = "0" + result;
+        }
+        return result;
+    }
+
+    public String getBlockedPIN() {
+        String asteriskPIN = "";
+        for (int i = 0; i < clientGUI.getCardPIN().length(); i++) {
+            asteriskPIN += "*";
+        }
+        return asteriskPIN;
     }
 
     public void drawCenteredString(final String s, final int w, final int h, final int yOffset, final Graphics g) {
