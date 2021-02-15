@@ -12,6 +12,8 @@ public class ClientGUI extends JFrame {
     private final int clientW = 500, clientH = 500;
     //
     private final ScreenHandler screenHandler = new ScreenHandler(this);
+    //
+    public static State ClientState = State.ConnectingToServer;
 
     public ClientGUI() {
         setTitle("WorldBank ATM - Motheen Baig");
