@@ -10,6 +10,8 @@ public class ClientGUI extends JFrame {
     private Image image;
     private Graphics graphics;
     private final int clientW = 500, clientH = 500;
+    //
+    private final ScreenHandler screenHandler = new ScreenHandler(this);
 
     public ClientGUI() {
         setTitle("WorldBank ATM - Motheen Baig");
@@ -25,7 +27,7 @@ public class ClientGUI extends JFrame {
             return;
         }
         graphics.clearRect(0, 0, clientW, clientH);
-        // Draw2
+        screenHandler.paint(graphics);
         g.drawImage(image, 0, 0, this);
     }
 
