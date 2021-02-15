@@ -25,7 +25,7 @@ public class ClientGUI extends JFrame {
             return;
         }
         graphics.clearRect(0, 0, clientW, clientH);
-
+        // Draw
         g.drawImage(image, 0, 0, this);
     }
 
