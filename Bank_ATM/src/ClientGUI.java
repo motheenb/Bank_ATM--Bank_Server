@@ -13,7 +13,7 @@ public class ClientGUI extends JFrame {
     //
     private final ScreenHandler screenHandler = new ScreenHandler(this);
     //
-    public static State ClientState = State.ConnectingToServer;
+    public static State ClientState = State.Withdraw;
 
     public ClientGUI() {
         setTitle("WorldBank ATM - Motheen Baig");
@@ -35,6 +35,14 @@ public class ClientGUI extends JFrame {
 
     public static void log(final Object o) {
         System.out.println(o);
+    }
+
+    public int getClientW() {
+        return clientW;
+    }
+
+    public int getClientH() {
+        return clientH;
     }
 
     public static void main(final String...args) {

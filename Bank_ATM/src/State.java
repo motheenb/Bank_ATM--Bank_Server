@@ -1,5 +1,5 @@
 public enum State {
 
-    ConnectingToServer
+    ConnectingToServer, EnterCard, EnterPIN, MainMenu, Withdraw, Deposit, Transactions
 
 }
