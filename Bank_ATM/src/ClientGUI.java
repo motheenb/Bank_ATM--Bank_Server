@@ -1,5 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -15,20 +18,45 @@ public class ClientGUI extends JFrame {
     //
     private final InputHandler inputHandler = new InputHandler(this);
     //
-    public static State ClientState = State.EnterCard;
+    public static State ClientState = State.ConnectingToServer;
     //
     private String cardNumber = "", cardPIN = "", withdraw = "0.00", deposit = "", accountBalance = "1419.32";
+    //
+    private ClientSocket clientSocket;
 
     public ClientGUI() {
-        setTitle("WorldBank ATM - Motheen Baig");
-        setSize(clientW, clientH);
-        addKeyListener(inputHandler);
-        addMouseListener(inputHandler);
-        addMouseMotionListener(inputHandler);
-        setResizable(false);
-        setVisible(true);
-        image = createImage(clientW, clientH);
-        graphics = image.getGraphics();
+        if (ClientState.equals(State.ConnectingToServer)) {
+            Future<Boolean> connectToServer = ThreadManager.get().submit(() -> {
+                clientSocket = new ClientSocket(this).connectToServer();
+                // TimeUnit.SECONDS.sleep(1);
+                return clientSocket.getSocket() != null;
+            });
+            while (!connectToServer.isDone()) {
+                if (!isVisible()) {
+                    setTitle("WorldBank ATM - Motheen Baig");
+                    setSize(clientW, clientH);
+                    addKeyListener(inputHandler);
+                    addMouseListener(inputHandler);
+                    addMouseMotionListener(inputHandler);
+                    setResizable(false);
+                    setVisible(true);
+                    image = createImage(clientW, clientH);
+                    graphics = image.getGraphics();
+                } else
+                    continue;
+            }
+            try {
+                if (connectToServer.get()) {
+                    ClientGUI.log("Connected to server.");
+                    ThreadManager.get().execute(clientSocket.openStreams());
+                } else {
+                    ClientGUI.log("Client could not to server.");
+                    screenHandler.setErrorMessage("Error!"); // strike through 'connecting to server'
+                }
+            } catch (final InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void paint(final Graphics g) {

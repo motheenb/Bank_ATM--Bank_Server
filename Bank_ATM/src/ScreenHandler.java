@@ -6,6 +6,7 @@ public class ScreenHandler {
     private final ClientGUI clientGUI;
     //
     private Graphics2D graphics2D;
+    private String errorMessage = "";
 
     public ScreenHandler(final ClientGUI clientGUI) {
         this.clientGUI = clientGUI;
@@ -14,6 +15,10 @@ public class ScreenHandler {
     public void paint(final Graphics g) {
         graphics2D = (Graphics2D) g.create();
         graphics2D.fillRect(0, 0, clientGUI.getClientW(), clientGUI.getClientH());
+        if (errorMessage != "") {
+            graphics2D.setColor(Color.RED);
+            drawCenteredString("" + errorMessage, clientGUI.getClientW(), clientGUI.getClientH(), -25, graphics2D);
+        }
         switch (ClientGUI.ClientState) {
             case ConnectingToServer -> {
                 graphics2D.setColor(Color.GREEN);
@@ -81,4 +86,11 @@ public class ScreenHandler {
         g.drawString(s, x, y);
     }
 
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(final String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
 }
