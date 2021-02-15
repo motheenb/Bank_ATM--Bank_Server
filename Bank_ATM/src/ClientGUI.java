@@ -1,8 +1,9 @@
+import handlers.ThreadHandler;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -26,7 +27,7 @@ public class ClientGUI extends JFrame {
 
     public ClientGUI() {
         if (ClientState.equals(State.ConnectingToServer)) {
-            Future<Boolean> connectToServer = ThreadManager.get().submit(() -> {
+            Future<Boolean> connectToServer = ThreadHandler.get().submit(() -> {
                 clientSocket = new ClientSocket(this).connectToServer();
                 // TimeUnit.SECONDS.sleep(1);
                 return clientSocket.getSocket() != null;
@@ -48,7 +49,8 @@ public class ClientGUI extends JFrame {
             try {
                 if (connectToServer.get()) {
                     ClientGUI.log("Connected to server.");
-                    ThreadManager.get().execute(clientSocket.openStreams());
+                    ClientState = State.EnterCard;
+                    ThreadHandler.get().execute(() -> clientSocket.openStreams());
                 } else {
                     ClientGUI.log("Client could not to server.");
                     screenHandler.setErrorMessage("Error!"); // strike through 'connecting to server'
