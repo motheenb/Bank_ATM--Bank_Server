@@ -20,7 +20,7 @@ public class ClientSocket implements Runnable {
     @Override
     public void run() {
         while (!socket.isClosed()) {
-
+            // test
         }
      }
 
