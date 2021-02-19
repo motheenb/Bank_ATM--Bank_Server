@@ -1,23 +1,25 @@
+package org.motheen.server;
+
 import java.util.concurrent.*;
 
 /**
  * @author Motheen Baig
  */
-public class ThreadManager {
+public class ThreadHandler {
 
     private ExecutorService executorService;
 
-    private static ThreadManager threadManager = null;
+    private static ThreadHandler threadHandler = null;
 
-    private ThreadManager() {
+    private ThreadHandler() {
         executorService = Executors.newCachedThreadPool();
     }
 
-    public static ThreadManager get() {
-        if (threadManager == null) {
-            threadManager = new ThreadManager();
+    public synchronized static ThreadHandler get() {
+        if (threadHandler == null) {
+            threadHandler = new ThreadHandler();
         }
-        return threadManager;
+        return threadHandler;
     }
 
     public void execute(final Runnable runnable) {

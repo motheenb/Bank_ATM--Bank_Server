@@ -1,3 +1,7 @@
+package org.motheen.atm.handlers;
+
+import org.motheen.atm.ClientGUI;
+
 import java.awt.*;
 import java.text.DecimalFormat;
 

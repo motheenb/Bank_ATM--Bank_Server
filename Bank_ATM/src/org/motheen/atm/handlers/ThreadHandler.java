@@ -1,4 +1,4 @@
-package handlers;
+package org.motheen.atm.handlers;
 
 import java.util.concurrent.*;
 
@@ -9,17 +9,17 @@ public class ThreadHandler {
 
     private ExecutorService executorService;
 
-    private static ThreadHandler threadManager = null;
+    private static ThreadHandler threadHandler = null;
 
     private ThreadHandler() {
         executorService = Executors.newCachedThreadPool();
     }
 
     public static ThreadHandler get() {
-        if (threadManager == null) {
-            threadManager = new ThreadHandler();
+        if (threadHandler == null) {
+            threadHandler = new ThreadHandler();
         }
-        return threadManager;
+        return threadHandler;
     }
 
     public void execute(final Runnable runnable) {

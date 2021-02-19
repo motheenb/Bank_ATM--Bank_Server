@@ -1,3 +1,8 @@
+package org.motheen.atm.handlers;
+
+import org.motheen.atm.ClientGUI;
+import org.motheen.atm.State;
+
 import java.awt.event.*;
 
 public class InputHandler implements MouseListener, MouseMotionListener, KeyListener {
