@@ -1,4 +1,7 @@
-package org.motheen.server;
+package org.motheen.server.handlers;
+
+import org.motheen.server.io.Client;
+import org.motheen.server.Server;
 
 import java.net.Socket;
 import java.util.ArrayList;

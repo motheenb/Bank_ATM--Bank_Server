@@ -1,4 +1,4 @@
-package org.motheen.server;
+package org.motheen.server.io;
 
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
