@@ -22,7 +22,7 @@ public class InputHandler implements MouseListener, MouseMotionListener, KeyList
     public void keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode();
         char keyChar = e.getKeyChar();
-        ClientGUI.log("KeyPressed: " + keyCode);
+        //ClientGUI.log("KeyPressed: " + keyCode);
         if (keyCode > 47 && keyCode < 58) {
             if (ClientGUI.ClientState.equals(State.EnterCard)) {
                 if (clientGUI.getCardNumber().length() < 16) {
@@ -47,7 +47,9 @@ public class InputHandler implements MouseListener, MouseMotionListener, KeyList
             }
         } else if (keyCode == 10) {
             if (ClientGUI.ClientState.equals(State.EnterCard)) {
-
+                clientGUI.getClientSocket().sendCardNumber();
+            } else if (ClientGUI.ClientState.equals(State.EnterPIN)) {
+                clientGUI.getClientSocket().sendPIN();
             }
         }
         if (ClientGUI.ClientState.equals(State.MainMenu)) {

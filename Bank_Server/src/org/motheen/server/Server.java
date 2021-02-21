@@ -5,7 +5,6 @@ import org.motheen.server.handlers.ThreadHandler;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.Socket;
 
 /**
  *
@@ -25,16 +24,17 @@ public class Server {
         }
     }
 
-    public void listen() {
-        Socket socket;
-        while (!serverSocket.isClosed()) {
-            try {
-                socket = serverSocket.accept();
-                clientHandler.acceptConnection(socket);
-            } catch (final IOException e) {
-                e.printStackTrace();
+    public Server listen() {
+        ThreadHandler.get().execute(() -> {
+            while (!serverSocket.isClosed()) {
+                try {
+                    clientHandler.acceptConnection(serverSocket.accept());
+                } catch (final IOException e) {
+                    e.printStackTrace();
+                }
             }
-        }
+        });
+        return this;
     }
 
     public static void log(final Object o) {
@@ -42,8 +42,7 @@ public class Server {
     }
 
     public static void main(final String...args) {
-        final Server server = new Server(43594);
-        ThreadHandler.get().execute(server::listen);
+        new Server(43594).listen();
     }
 
 }

@@ -24,6 +24,10 @@ public class ScreenHandler {
             drawCenteredString("" + errorMessage, clientGUI.getClientW(), clientGUI.getClientH(), -25, graphics2D);
         }
         switch (ClientGUI.ClientState) {
+            case NewKey -> {
+                graphics2D.setColor(Color.GREEN);
+                drawCenteredString("Creating secure session.", clientGUI.getClientW(), clientGUI.getClientH(), 0, graphics2D);
+            }
             case ConnectingToServer -> {
                 graphics2D.setColor(Color.GREEN);
                 drawCenteredString("Connecting to server.", clientGUI.getClientW(), clientGUI.getClientH(), 0, graphics2D);

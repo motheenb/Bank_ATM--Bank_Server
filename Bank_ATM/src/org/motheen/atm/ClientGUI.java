@@ -39,7 +39,7 @@ public class ClientGUI extends JFrame {
         image = createImage(clientW, clientH);
         graphics = image.getGraphics();
         if (ClientState.equals(State.ConnectingToServer)) {
-            clientSocket = new ClientSocket();
+            clientSocket = new ClientSocket(this);
             ThreadHandler.get().execute(clientSocket::run);
         }
     }
@@ -111,4 +111,9 @@ public class ClientGUI extends JFrame {
     public void setAccountBalance(final String accountBalance) {
         this.accountBalance = accountBalance;
     }
+
+    public ClientSocket getClientSocket() {
+        return clientSocket;
+    }
+
 }
